@@ -2,6 +2,7 @@
                         let users=[]
                         let posts=[]
                         let comments=[]
+                        let albums=[]
                         function getUsers(done){
                             if(localStorage['users'])
                                 users=JSON.parse(localStorage['users'])
