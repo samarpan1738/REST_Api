@@ -4,7 +4,7 @@
                         let comments=[]
                         let albums=[]
                         let photos=[]
-                        //GETTING INFO FROM J S O N - P L A C E H O L D E R   
+ 
 
                         function getUsers(done){
                             if(localStorage['users'])
@@ -87,13 +87,11 @@
                                 })
 
                         }
-//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                        
-                        //Refreshing I N F O R M A T I O N
 
-                        function refreshUsers(users){$('#row-users').html("");
-                            //if( ($('#row-users').text() ).trim().length == 0 )
-                            //{
+                        
+
+                        function refreshUsers(users){
+                            $('#row-users').html("");
                             users.forEach((user) =>{
                             $('#row-users').append(
                                 `
@@ -131,9 +129,7 @@
                             
                             }
 
-                            //if( ( $('#col-todos').text() ).trim().length === 0 ||  $('#col-todos').children().length===20)
-                            //{
-                            //$( "#col-todos" ).empty();
+                            
                             todos.forEach((todo) =>{
                             $('#col-todos').append(
                                 `
@@ -144,7 +140,7 @@
                                         </div>
                                 `
                             )
-                        })//} 
+                        })
                         if(filterUserid)
                         {
                             todos=JSON.parse(localStorage['todos'])
@@ -154,7 +150,6 @@
                         function showCommentsofPost(comments,postid)
                         {
                                 comments=comments.filter((comment)=>(comment.postId === postid))
-                               // console.log(comments)
                                 comments.forEach((comment)=>{
                                     $(`#container-${postid}-comments`).append(
                                         `
@@ -239,9 +234,7 @@
                                     )
                                 })
                         }
-//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    
-                        // T A B S - T O G G L E R
+
 
                         function toggleActive(newActiveTab)
                         {
