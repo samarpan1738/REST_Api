@@ -1,3 +1,4 @@
+                        //Arrays
                         let todos=[]
                         let users=[]
                         let posts=[]
