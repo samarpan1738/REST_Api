@@ -3,6 +3,9 @@
                         let posts=[]
                         let comments=[]
                         let albums=[]
+                        let photos=[]
+                        //GETTING INFO FROM J S O N - P L A C E H O L D E R   
+
                         function getUsers(done){
                             if(localStorage['users'])
                                 users=JSON.parse(localStorage['users'])
@@ -42,13 +45,51 @@
                             })
                         }
 
-                        function getComments(){
+                        function getComments(done,id){
+                            if(localStorage['comments'])
+                                comments=JSON.parse(localStorage['comments'])
+
+                            if(comments && comments.length>0)
+                                return done(comments,id)
 
                             $.getJSON(`https://jsonplaceholder.typicode.com/comments`,(data)=>{
                                 localStorage['comments']=JSON.stringify(data)
+                                done(data,id)
                             })
 
                         }
+
+                        function getAlbums(done)
+                        {
+                            if(localStorage['albums'])
+                                albums=JSON.parse(localStorage['albums'])
+                            if(albums && albums.length>0)
+                                return done(albums)
+                            
+                            $.getJSON('https://jsonplaceholder.typicode.com/albums',(data)=>
+                                {
+                                    localStorage['albums']=JSON.stringify(data)
+                                    done(data)
+                                })
+                        }
+
+                        function getPhotos(done,id)
+                        {
+                            if(localStorage['photos'])
+                                photos=JSON.parse(localStorage['photos'])
+                            if(photos && photos.length>0)
+                                return done(photos,id)
+                            
+                            $.getJSON(`https://jsonplaceholder.typicode.com/photos`,(data)=>
+                                {
+                                    localStorage['photos']=JSON.stringify(data)
+                                    done(data,id)
+                                })
+
+                        }
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                        
+                        //Refreshing I N F O R M A T I O N
 
                         function refreshUsers(users){$('#row-users').html("");
                             //if( ($('#row-users').text() ).trim().length == 0 )
@@ -110,13 +151,12 @@
                         }
                         }
 
-                        function showCommentsofPost(postid)
+                        function showCommentsofPost(comments,postid)
                         {
-                            comments=JSON.parse(localStorage['comments'])
                                 comments=comments.filter((comment)=>(comment.postId === postid))
-                                console.log(comments)
+                               // console.log(comments)
                                 comments.forEach((comment)=>{
-                                    $(`#container-${postid}`).append(
+                                    $(`#container-${postid}-comments`).append(
                                         `
                                         
                                         <div class="row">
@@ -140,29 +180,68 @@
                                 })
                         }
 
-                        function refreshPosts(posts){
-                            getComments()
+                        function refreshPosts(posts)
+                        {
+                            
                             if($('#col-posts').text().trim().length === 0)
                             {
-                            posts.forEach((post) =>{
-                            $('#col-posts').append(
-                                `<div class="row list-group-item m-2">
-                                <h3>${post.title}</h3>
-                                <div>${post.body}</div><br>
-                                <a  class="card-link btn btn-primary" onclick="toggle(${post.id})">Comments</a>
-                                
-                                <div class="container p-2 hide" id="container-${post.id}"></div>
-                                `
-                            )
-                            showCommentsofPost(post.id)
-                                
-                            })
+                                posts.forEach((post) =>{
+                                    $('#col-posts').append(
+                                        `<div class="row list-group-item m-2">
+                                        <h3>${post.title}</h3>
+                                        <div>${post.body}</div><br>
+                                        <a  class="card-link btn btn-primary" onclick="toggle(${post.id},'comments')">Comments</a>
+                                        
+                                        <div class="container p-2 hide" id="container-${post.id}-comments"></div>
+                                        `
+                                    )
+                                    getComments(showCommentsofPost,post.id)
+                                })
                             }
-                            }
-                        function toggle(id)
-                        {
-                            $(`#container-${id}`).toggle();
                         }
+                        function toggle(id,field)
+                        {
+                            $(`#container-${id}-${field}`).toggle();
+                        }
+
+                        function refreshAlbums(albums)
+                        {
+                            if($('#col-albums').text().trim().length === 0)
+                            albums.forEach((album)=>
+                                {
+                                    $('#col-albums').append(
+                                        `
+                                        <div class="row list-group-item m-2">
+                                        <h3>${album.title}</h3>
+                                        <a  class="card-link btn btn-primary" onclick="toggle(${album.id},'photos')">Photos</a>
+                                        
+                                        <div class="container p-2 hide" id="container-${album.id}-photos">
+                                        <div id="photos-${album.id}" class="row"></div>
+                                        </div>
+                                        `
+                                    )    
+                                    getPhotos(refreshPhotos,album.id) 
+                                })
+                        }
+
+                        function refreshPhotos(photos,id)
+                        {
+                            photos=photos.filter((photo)=>(photo.albumId === id))
+                    
+                                photos.forEach((photo)=>{
+                                    $(`#photos-${id}`).append(
+                                        `
+                                        <div class="col-md-4 col-lg-3 col-xm-12 p-2">
+                                        <a href=${photo.url} target="_blank"><img src=${photo.thumbnailUrl}></img></a>
+                                        </div>
+
+                                        `
+                                    )
+                                })
+                        }
+//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    
+                        // T A B S - T O G G L E R
 
                         function toggleActive(newActiveTab)
                         {
@@ -184,12 +263,12 @@
 
                             $('#tab-albums').click(()=>{
                                 toggleActive('albums')
+                                getAlbums(refreshAlbums)
                                 
                             })
 
                             $('#tab-posts').click(()=>{
                                 toggleActive('posts')
-                                getComments()
                                 getPosts(refreshPosts)    
                             })
 
