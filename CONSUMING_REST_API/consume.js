@@ -166,7 +166,7 @@
                                         <div class="card p-1 m-1">
                                             <div class="card-body">
                                                 <h5 class="card-title"><b>${comment.name}</b></h5><br>
-                                                <h6 class="card-subtitle">${comment.email}</h6><br>
+                                                <h6 class="card-subtitle"><a href="mailto:${comment.email}" target="_blank">${comment.email}</a></h6><br>
                                                 <p class="card-text">
                                                     ${comment.body}<br>
                                                 </p>
