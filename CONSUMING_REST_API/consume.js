@@ -14,7 +14,7 @@
                             if(users && users.length>0)
                                 return done(users) 
 
-                            $.getJSON('http://jsonplaceholder.typicode.com/users',(data)=>{
+                            $.getJSON('https://jsonplaceholder.typicode.com/users',(data)=>{
                                 localStorage['users']=JSON.stringify(data)
                                     done(data)
                             })
@@ -27,7 +27,7 @@
                             if(todos && todos.length>0)
                                 return done(todos)
                             
-                            $.getJSON('http://jsonplaceholder.typicode.com/todos',(data)=>{
+                            $.getJSON('https://jsonplaceholder.typicode.com/todos',(data)=>{
                                 localStorage['todos']=JSON.stringify(data)
                                     done(data)
                             })
