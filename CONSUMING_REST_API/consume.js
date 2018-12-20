@@ -1,15 +1,17 @@
                         //Arrays
+
                         let todos=[]
                         let users=[]
                         let posts=[]
                         let comments=[]
                         let albums=[]
                         let photos=[]
+
                         //GETTING INFO FROM J S O N - P L A C E H O L D E R   
 
                         function getUsers(done){
                             if(localStorage['users'])
-                                users=JSON.parse(localStorage['users'])
+                                users=JSON.parse(localStorage['users'])//converting JSON object to JS object
 
                             if(users && users.length>0)
                                 return done(users) 
@@ -123,18 +125,13 @@
                             refreshTodos(JSON.parse(localStorage['todos']),userid)
                         }
 
-                        function refreshTodos(todos,filterUserid){$('#col-todos').html("");
+                        function refreshTodos(todos,filterUserid)
+                        {
+                            $('#col-todos').html("");//Clearing our todos conatiner
                             
                             if(filterUserid)
-                            {
                             todos=todos.filter((todo)=>(todo.userId === filterUserid))
-                            //$( "#col-todos" ).empty();
-                            
-                            }
 
-                            //if( ( $('#col-todos').text() ).trim().length === 0 ||  $('#col-todos').children().length===20)
-                            //{
-                            //$( "#col-todos" ).empty();
                             todos.forEach((todo) =>{
                             $('#col-todos').append(
                                 `
@@ -145,15 +142,18 @@
                                         </div>
                                 `
                             )
-                        })//} 
-                        if(filterUserid)
+                        })
+                        
+                        /*if(filterUserid)
                         {
                             todos=JSON.parse(localStorage['todos'])
-                        }
+                        }*/
                         }
 
                         function showCommentsofPost(comments,postid)
                         {
+                            if($(`#container-${postid}-comments`).text().trim().length === 0)
+                            {
                                 comments=comments.filter((comment)=>(comment.postId === postid))
                                // console.log(comments)
                                 comments.forEach((comment)=>{
@@ -179,6 +179,8 @@
                                         `
                                     )
                                 })
+                            }
+                                toggle(postid,'comments')
                         }
 
                         function refreshPosts(posts)
@@ -191,18 +193,18 @@
                                         `<div class="row list-group-item m-2">
                                         <h3>${post.title}</h3>
                                         <div>${post.body}</div><br>
-                                        <a  class="card-link btn btn-primary" onclick="toggle(${post.id},'comments')">Comments</a>
+                                        <a  class="card-link btn btn-primary" onclick="getComments(showCommentsofPost,${post.id})">Comments</a>
                                         
                                         <div class="container p-2 hide" id="container-${post.id}-comments"></div>
                                         `
                                     )
-                                    getComments(showCommentsofPost,post.id)
                                 })
                             }
                         }
                         function toggle(id,field)
                         {
                             $(`#container-${id}-${field}`).toggle();
+
                         }
 
                         function refreshAlbums(albums)
@@ -214,19 +216,22 @@
                                         `
                                         <div class="row list-group-item m-2">
                                         <h3>${album.title}</h3>
-                                        <a  class="card-link btn btn-primary" onclick="toggle(${album.id},'photos')">Photos</a>
+                                        <a  class="card-link btn btn-primary" onclick="getPhotos(refreshPhotos,${album.id})">Photos</a>
                                         
                                         <div class="container p-2 hide" id="container-${album.id}-photos">
                                         <div id="photos-${album.id}" class="row"></div>
                                         </div>
                                         `
                                     )    
-                                    getPhotos(refreshPhotos,album.id) 
                                 })
                         }
 
+
                         function refreshPhotos(photos,id)
                         {
+                            console.log($(`#photos-${id}`).text().length)
+                            if($(`#photos-${id}`).text().length === 0)
+                            {
                             photos=photos.filter((photo)=>(photo.albumId === id))
                     
                                 photos.forEach((photo)=>{
@@ -239,6 +244,8 @@
                                         `
                                     )
                                 })
+                            }
+                                toggle(id,'photos')
                         }
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     
