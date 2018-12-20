@@ -3,7 +3,21 @@
     text-decoration: line-through;
     color:grey;
 }
-.hide
+body
 {
-    display: none;
+    background-image: url('./assets/pics/pexels-photo-807598.jpeg');
+    background-size: 100%;
+}
+#heading
+{
+    color:rgb(181, 255, 52);
+}
+.edit
+{
+    text-decoration: none;
+    color: rgb(139, 177, 73);
+}
+a:hover
+{
+    color: rgb(181, 255, 52);
 }
