@@ -17,7 +17,7 @@ body
     text-decoration: none;
     color: rgb(139, 177, 73);
 }
-a:hover
+.card_text
 {
-    color: rgb(181, 255, 52);
+    color: rgb(159, 243, 14);
 }

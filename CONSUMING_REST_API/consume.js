@@ -101,8 +101,8 @@
                             $('#row-users').append(
                                 `
                                 <div class="col-xm-12 col-sm-6 col-md-4">
-                                        <div class="card p-1 m-1">
-                                            <div class="card-body">
+                                        <div class="card border-dark bg-transparent p-1 m-1">
+                                            <div class="card-body card_text">
                                                 <h5 class="card-title">${user.name}</h5>
                                                 <h6 class="card-subtitle">${user.email}</h6>
                                                 <p class="card-text">
@@ -135,7 +135,7 @@
                             todos.forEach((todo) =>{
                             $('#col-todos').append(
                                 `
-                                        <div class="row list-group-item m-2">
+                                        <div class="row list-group-item m-2 cardz">
                                             
                                             <span class="col-3"><input class="btn btn-primary" type="checkbox" ${todo.completed?'checked':''}></span>
                                             <span class="col ${todo.completed?'completed-task':''}">${todo.title}</span>
@@ -160,10 +160,10 @@
                                     $(`#container-${postid}-comments`).append(
                                         `
                                         
-                                        <div class="row">
+                                        <div class="row comment_box">
                                         <div class="col"></div>
                                         <div class="col-md-10 col-xm-12">
-                                        <div class="card p-1 m-1">
+                                        <div class="card p-1 m-1 bg-success">
                                             <div class="card-body">
                                                 <h5 class="card-title"><b>${comment.name}</b></h5><br>
                                                 <h6 class="card-subtitle"><a href="mailto:${comment.email}" target="_blank">${comment.email}</a></h6><br>
@@ -190,7 +190,7 @@
                             {
                                 posts.forEach((post) =>{
                                     $('#col-posts').append(
-                                        `<div class="row list-group-item m-2">
+                                        `<div class="row list-group-item m-2 cardz">
                                         <h3>${post.title}</h3>
                                         <div>${post.body}</div><br>
                                         <a  class="card-link btn btn-primary" onclick="getComments(showCommentsofPost,${post.id})">Comments</a>
@@ -214,7 +214,7 @@
                                 {
                                     $('#col-albums').append(
                                         `
-                                        <div class="row list-group-item m-2">
+                                        <div class="row list-group-item m-2 cardz">
                                         <h3>${album.title}</h3>
                                         <a  class="card-link btn btn-primary" onclick="getPhotos(refreshPhotos,${album.id})">Photos</a>
                                         
@@ -229,8 +229,8 @@
 
                         function refreshPhotos(photos,id)
                         {
-                            console.log($(`#photos-${id}`).text().length)
-                            if($(`#photos-${id}`).text().length === 0)
+                              
+                            if($(`#photos-${id}`).html().length === 0)
                             {
                             photos=photos.filter((photo)=>(photo.albumId === id))
                     
@@ -245,7 +245,8 @@
                                     )
                                 })
                             }
-                                toggle(id,'photos')
+                            console.log("in refresh photos")
+                                toggle(id,'photos');
                         }
 //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     
